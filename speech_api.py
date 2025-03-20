@@ -130,6 +130,8 @@ def speech_to_text():
         text = "DeepSpeech is not available. Running in dummy mode."
 
     return jsonify({"text": text})
-
+@app.route('/')
+def home():
+    return "Hello, World!"
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
