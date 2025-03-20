@@ -89,15 +89,22 @@ SCORER_PATH = "deepspeech-0.9.3-models.scorer"
 # Load DeepSpeech Model (with error handling)
 try:
     import deepspeech
+    if not os.path.exists(MODEL_PATH) or not os.path.exists(SCORER_PATH):
+        raise FileNotFoundError("Model or scorer file not found.")
     model = deepspeech.Model(MODEL_PATH)
     model.enableExternalScorer(SCORER_PATH)
     print("[SUCCESS] DeepSpeech model loaded.")
 except ImportError:
     print("[WARNING] DeepSpeech module not found. Falling back to dummy mode.")
     model = None
+except Exception as e:
+    print(f"[ERROR] Failed to load DeepSpeech model: {e}")
+    model = None
+
 @app.route('/')
 def home():
     return "Hello, World!"
+
 @app.route('/speech-to-text', methods=['POST'])
 def speech_to_text():
     """API Endpoint to process audio and return transcribed text."""
@@ -131,8 +138,13 @@ def speech_to_text():
     else:
         text = "DeepSpeech is not available. Running in dummy mode."
 
+    # Clean up: Delete the uploaded file
+    try:
+        os.remove(file_path)
+    except Exception as e:
+        print(f"[WARNING] Failed to delete file: {e}")
+
     return jsonify({"text": text})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
-
