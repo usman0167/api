@@ -12,12 +12,15 @@ RUN apt-get update && apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
+# Download DeepSpeech binaries
+RUN wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.pbmm \
+    && wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.scorer
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the Flask app port
-EXPOSE 5000
+EXPOSE 5001
 
 # Run the Flask app
 CMD ["gunicorn", "speech_api:app"]
