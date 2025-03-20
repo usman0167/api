@@ -81,9 +81,7 @@ from pydub import AudioSegment
 
 # Initialize Flask App
 app = Flask(__name__)
-@app.route('/')
-def home():
-    return "Hello, World!"
+
 # Path to DeepSpeech binaries
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "deepspeech-0.9.3-models.pbmm")
 SCORER_PATH = os.path.join(os.path.dirname(__file__), "deepspeech-0.9.3-models.scorer")
@@ -97,7 +95,9 @@ try:
 except ImportError:
     print("[WARNING] DeepSpeech module not found. Falling back to dummy mode.")
     model = None
-
+@app.route('/')
+def home():
+    return "Hello, World!"
 @app.route('/speech-to-text', methods=['POST'])
 def speech_to_text():
     """API Endpoint to process audio and return transcribed text."""
