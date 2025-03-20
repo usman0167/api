@@ -1,0 +1,5 @@
+flask
+deepspeech
+numpy
+scipy
+gunicorn
