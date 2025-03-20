@@ -81,7 +81,9 @@ from pydub import AudioSegment
 
 # Initialize Flask App
 app = Flask(__name__)
-
+@app.route('/')
+def home():
+    return "Hello, World!"
 # Path to DeepSpeech binaries
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "deepspeech-0.9.3-models.pbmm")
 SCORER_PATH = os.path.join(os.path.dirname(__file__), "deepspeech-0.9.3-models.scorer")
@@ -130,8 +132,6 @@ def speech_to_text():
         text = "DeepSpeech is not available. Running in dummy mode."
 
     return jsonify({"text": text})
-@app.route('/')
-def home():
-    return "Hello, World!"
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
