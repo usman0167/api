@@ -83,8 +83,8 @@ from pydub import AudioSegment
 app = Flask(__name__)
 
 # Path to DeepSpeech binaries
-MODEL_PATH = "deepspeech-0.9.3-models.pbmm"
-SCORER_PATH = "deepspeech-0.9.3-models.scorer"
+MODEL_PATH = "./deepspeech-0.9.3-models.pbmm"
+SCORER_PATH = "./deepspeech-0.9.3-models.scorer"
 
 # Load DeepSpeech Model (with error handling)
 try:
